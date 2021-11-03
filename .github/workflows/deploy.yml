@@ -29,3 +29,8 @@ jobs:
         run: |
           echo "Running the app"
           python -m Manager
+        env: 
+          GITHUB: ${{ secrets.GITHUB }}
+          APP_ID: ${{ secrets.APP_ID }} 
+          API_HASH: ${{ secrets.API_HASH }} 
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}

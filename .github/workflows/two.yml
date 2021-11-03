@@ -1,0 +1,48 @@
+name: Run the bot (2)
+
+on:
+  repository_dispatch:
+    types: [two]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: styfle/cancel-workflow-action@0.9.1
+        with:
+          access_token: ${{ github.token }}
+          
+      - uses: actions/checkout@v2
+        with:
+          repository: jainamoswal/groupManager
+          token: ${{ secrets.GITHUB }}
+          
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ hashFiles('setup.py') }}-${{ hashFiles('requirements.txt') }}
+
+      - name: Install requirements
+        run: pip install --upgrade -r requirements.txt 
+
+      - name: Running Bot
+        timeout-minutes: 350
+        continue-on-error: true
+        run: |
+          echo "Running the app"
+          python -m Manager
+        env: 
+          GITHUB: ${{ secrets.GITHUB }}
+          APP_ID: ${{ secrets.APP_ID }} 
+          API_HASH: ${{ secrets.API_HASH }} 
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          
+      - name: Trigger 1st Bot
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ github.token }}
+          event-type: one

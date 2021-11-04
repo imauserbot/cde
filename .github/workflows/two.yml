@@ -1,7 +1,12 @@
 name: two
 
-on: workflow_dispatch
-
+on:
+  workflow_dispatch:
+    inputs:
+      foo:
+        description: Some input
+        required: true
+        
 jobs:
   build:
     runs-on: ubuntu-latest

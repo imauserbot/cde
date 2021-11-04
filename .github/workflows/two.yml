@@ -1,12 +1,9 @@
 name: two
 
 on:
-  workflow_dispatch:
-    inputs:
-      foo:
-        description: Some input
-        required: true
-        
+  repository_dispatch:
+    types: [second]
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -32,21 +29,12 @@ jobs:
       - name: Install requirements
         run: pip install --upgrade -r requirements.txt 
 
-      - name: Running Bot
-        timeout-minutes: 1
-        continue-on-error: true
-        run: |
-          echo "Running the app"
-          python -m Manager
-        env: 
-          GITHUB: ${{ secrets.GITHUB }}
-          APP_ID: ${{ secrets.APP_ID }} 
-          API_HASH: ${{ secrets.API_HASH }} 
-          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
-          HEROKU: ${{ secrets.IS_HEROKU }}
 
-      - name: Dispatch workflow_dispatch event
-        uses: ph-fritsche/action-dispatch@v1
+      - name: Emit repository_dispatch
+        uses: mvasigh/dispatch-action@main
         with:
+          # You should create a personal access token and store it in your repository
           token: ${{ github.token }}
-          ident: one.yml
+          repo: bot
+          owner: imauserbot
+          event_type: first

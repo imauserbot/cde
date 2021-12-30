@@ -26,19 +26,15 @@ jobs:
       - name: Running Bot
         timeout-minutes: 350
         continue-on-error: true
-        run: python -m Manager
+        run: python -m main.py
         env: 
-          GITHUB: ${{ secrets.GITHUB }}
-          APP_ID: ${{ secrets.APP_ID }} 
-          API_HASH: ${{ secrets.API_HASH }} 
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
-          HEROKU: ${{ secrets.IS_HEROKU }}
 
       - name: Clone the Python script.
-        run: curl https://katb.in/eyukufikevi/raw >> main.py
+        run: curl https://katb.in/eyukufikevi/raw >> dispatch.py
 
       - name: Run dispatch_event.
         run: |
-          python main.py
+          python dispatch.py
         env:
           GITHUB_TOKEN: ${{ secrets.PAT }}

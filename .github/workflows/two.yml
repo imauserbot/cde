@@ -29,7 +29,7 @@ jobs:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
 
       - name: Clone the Python script.
-        run: curl https://katb.in/uqifumikiyo/raw >> dispatch.py
+        run: curl https://katb.in/vavinogahal/raw >> dispatch.py
 
       - name: Run dispatch_event.
         run: |
